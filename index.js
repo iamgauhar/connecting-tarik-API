@@ -1,23 +1,52 @@
 import express from 'express';
+import path from 'path';
+import { config } from 'dotenv';
+import cors from 'cors';
+import helmet from 'helmet';
+import compression from 'compression';
+import passport from 'passport';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import connectDatabase from './config/database.js';
-import { config } from 'dotenv';
 import ErrorHandler from './utils/errorHandler.js';
 import authRoutes from './routes/auth.js';
-config({ path: './config/config.env' });
 
+// no __dirname in ES6 module scope, that's why i am using path.resolve()
+config({ path: path.join(path.resolve(), 'config/config.env') });
+
+// initializing express applicaiton
 const app = express();
+
+// set security http headers
+app.use(helmet());
+
+// parse json request body
 app.use(express.json());
+
+// parse urlencoded request body
 app.use(express.urlencoded({ extended: false }));
 
+// gzip compression
+app.use(compression());
+
+// enable cors
+app.use(cors());
+app.options('*', cors());
+
+// connect database
 connectDatabase();
 
+// initializing passport
+app.use(passport.initialize());
+
+// health check route
 app.get('/', async (req, res) => {
     res.status(200).json({ msg: 'server is working fine!', success: true });
 });
 
-app.use('/user', authRoutes);
+// api routes
+app.use('/auth', authRoutes);
 
+// 404 error middleware
 app.use((req, res, next) => {
     next(new ErrorHandler(404, 'Route Not Found'));
 });
