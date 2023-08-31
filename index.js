@@ -9,6 +9,8 @@ import errorMiddleware from './middlewares/errorMiddleware.js';
 import connectDatabase from './config/database.js';
 import ErrorHandler from './utils/errorHandler.js';
 import authRoutes from './routes/auth.js';
+import logger from './config/logger.js';
+import httpStatus from 'http-status';
 
 // no __dirname in ES6 module scope, that's why i am using path.resolve()
 config({ path: path.join(path.resolve(), 'config/config.env') });
@@ -39,8 +41,11 @@ connectDatabase();
 app.use(passport.initialize());
 
 // health check route
-app.get('/', async (req, res) => {
-    res.status(200).json({ msg: 'server is working fine!', success: true });
+app.get('/', (req, res) => {
+    res.status(httpStatus.OK).json({
+        msg: 'server is working fine!',
+        success: true,
+    });
 });
 
 // api routes
@@ -48,12 +53,13 @@ app.use('/auth', authRoutes);
 
 // 404 error middleware
 app.use((req, res, next) => {
-    next(new ErrorHandler(404, 'Route Not Found'));
+    logger.error('NotFound Error');
+    next(new ErrorHandler(httpStatus.NOT_FOUND, 'Route Not Found'));
 });
 
 app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
-    console.log('server is running on http://localhost:' + PORT)
+    logger.info('server is running on http://localhost:' + PORT)
 );

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import logger from './logger.js';
 async function connectDatabase() {
     try {
         const {
@@ -6,9 +7,9 @@ async function connectDatabase() {
         } = await mongoose.connect(process.env.MONGO_URI, {
             dbName: process.env.DB_NAME,
         });
-        console.log('mongodb connected with server ' + host);
+        logger.info('mongodb connected with server ' + host);
     } catch (err) {
-        console.log(err.message);
+        logger.error(err.message);
     }
 }
 export default connectDatabase;
