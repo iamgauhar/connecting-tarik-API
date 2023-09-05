@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 import logger from '../config/logger.js';
 
 const validate = (schema) => (req, res, next) => {
-    const { value, error } = schema.validate();
+    const { value, error } = schema.validate(req.body);
     // console.log(error);
     if (error) {
         const errorMessage = error.details

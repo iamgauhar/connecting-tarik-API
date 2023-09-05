@@ -15,3 +15,10 @@ export const signup = catchAsyncError(async (req, res, next) => {
         user,
     });
 });
+
+export const login = catchAsyncError(async (req, res, next) => {
+    const existUser = await userModel.findOne({ email: req.body.email });
+    if (!existUser) {
+        return next(new ErrorHandler(400, 'Account does not exist'));
+    }
+});
