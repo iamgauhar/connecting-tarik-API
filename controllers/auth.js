@@ -2,18 +2,16 @@ import ErrorHandler from '../utils/errorHandler.js';
 import userModel from '../models/user.js';
 import catchAsyncError from '../middlewares/catchAsyncError.js';
 
-export const newUser = catchAsyncError(async (req, res, next) => {
-    const { name, age } = req.body;
-
-    const user = await userModel.create({ name, age });
+export const signup = catchAsyncError(async (req, res, next) => {
+    const existUser = await userModel.findOne({ email: req.body.email });
+    if (existUser) {
+        return next(new ErrorHandler(400, 'Account already exist'));
+    }
+    const user = await userModel.create(req.body);
 
     res.status(201).json({
         message: 'user created successfully!',
         success: true,
+        user,
     });
 });
-
-export const getUsers = async (req, res, next) => {
-    const users = await userModel.find();
-    res.status(200).json({ success: true, users });
-};

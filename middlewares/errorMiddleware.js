@@ -1,5 +1,6 @@
 import httpStatus from 'http-status';
 import ErrorHandler from '../utils/errorHandler.js';
+import logger from '../config/logger.js';
 
 function errorMiddleware(err, req, res, next) {
     err.statusCode = err.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
