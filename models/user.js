@@ -20,6 +20,8 @@ const userSchema = new Schema(
             // required: [true, 'password is required'],
             trim: true,
         },
+        passwordResetToken: String,
+        passwordResetTokenExpiration: Date,
     },
     { timestamps: true }
 );
