@@ -20,6 +20,7 @@ const userSchema = new Schema(
             // required: [true, 'password is required'],
             trim: true,
         },
+
     },
     { timestamps: true }
 );

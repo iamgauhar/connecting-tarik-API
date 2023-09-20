@@ -2,6 +2,7 @@ import ErrorHandler from '../utils/errorHandler.js';
 import userModel from '../models/user.js';
 import catchAsyncError from '../middlewares/catchAsyncError.js';
 
+
 export const signup = catchAsyncError(async (req, res, next) => {
     const existUser = await userModel.findOne({ email: req.body.email });
     if (existUser) {
@@ -30,3 +31,6 @@ export const login = catchAsyncError(async (req, res, next) => {
         token,
     });
 });
+
+
+
