@@ -18,7 +18,15 @@ export const signup = catchAsyncError(async (req, res, next) => {
 
 export const login = catchAsyncError(async (req, res, next) => {
     const existUser = await userModel.findOne({ email: req.body.email });
-    if (!existUser) {
-        return next(new ErrorHandler(400, 'Account does not exist'));
+    if (!existUser || !(await existUser.matchPassword(req.body.password))) {
+        return next(new ErrorHandler(400, 'Email or Password is incorrect'));
     }
+
+    const token = existUser.createJWT();
+
+    res.status(200).json({
+        success: true,
+        message: 'LoggedIn successfully',
+        token,
+    });
 });

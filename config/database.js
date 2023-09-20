@@ -4,7 +4,7 @@ async function connectDatabase() {
     try {
         const {
             connection: { host },
-        } = await mongoose.connect(process.env.MONGO_URI, {
+        } = await mongoose.connect('mongodb://127.0.0.1:27017', {
             dbName: process.env.DB_NAME,
         });
         logger.info('mongodb connected with server ' + host);

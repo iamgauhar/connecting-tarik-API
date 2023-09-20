@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 const userSchema = new Schema(
     {
@@ -19,27 +20,6 @@ const userSchema = new Schema(
             // required: [true, 'password is required'],
             trim: true,
         },
-        phone_no: {
-            type: String,
-        },
-        status: {
-            type: String,
-            enum: ['Active', 'InActive', 'Blocked'],
-        },
-        deleted: {
-            type: Boolean,
-            default: false,
-        },
-        profile_photo: String,
-        terms_and_conditions: {
-            type: Boolean,
-            default: false,
-        },
-        isVerified: {
-            type: Boolean,
-            required: true,
-            default: false,
-        },
     },
     { timestamps: true }
 );
@@ -53,6 +33,16 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.matchPassword = async function (password) {
     return await bcrypt.compare(password, this.password);
+};
+
+userSchema.methods.createJWT = function () {
+    const payload = {
+        userId: this._id,
+        email: this.email,
+    };
+    return jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+        expiresIn: process.env.JWT_EXPIRE_TIME,
+    });
 };
 
 const userModel = model('User', userSchema);
