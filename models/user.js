@@ -21,6 +21,8 @@ const userSchema = new Schema(
             trim: true,
         },
 
+        passwordResetToken: String,
+        passwordResetTokenExpiration: Date,
     },
     { timestamps: true }
 );
