@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { signup, login, resetPassword } from '../controllers/auth.js';
 import {
     signup,
     login,
