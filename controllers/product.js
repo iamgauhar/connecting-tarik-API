@@ -1,30 +1,24 @@
-import productModel from "../models/prodects.js"
+import productModel from '../models/prodects.js';
+import catchAsyncError from '../middlewares/catchAsyncError.js';
+import ErrorHandler from '../utils/errorHandler.js';
 
-export const createProduct = async (req, res, next) => {
-    const productInfo = req.body
-    try {
-        await productModel.create(productInfo)
-        res.status(201).json({
-            message: 'Product added successfully!',
-            success: true,
-        });
-    } catch (err) {
-        next(err)
+export const createProduct = catchAsyncError(async (req, res, next) => {
+    const product = await productModel.create(req.body);
+    res.status(201).json({
+        message: 'Product added successfully!',
+        success: true,
+        product,
+    });
+});
+
+export const allProduct = catchAsyncError(async (req, res, next) => {
+    const products = await productModel.find().select('-__v');
+    if (products.length == 0) {
+        return next(new ErrorHandler(404, 'No product found'));
     }
-
-}
-
-export const allProduct = async (req, res, next) => {
-    try {
-        const products = await productModel.find()
-        res.status(201).json({
-            products,
-            message: 'All Product fetched successfully!',
-            success: true,
-        });
-
-    } catch (err) {
-        next(err)
-
-    }
-}
+    res.status(201).json({
+        products,
+        message: 'Products fetched successfully!',
+        success: true,
+    });
+});

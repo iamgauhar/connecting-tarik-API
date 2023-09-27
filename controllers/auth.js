@@ -4,7 +4,6 @@ import userModel from '../models/user.js';
 import catchAsyncError from '../middlewares/catchAsyncError.js';
 import sendEmail from '../utils/sendEmail.js';
 
-
 export const signup = catchAsyncError(async (req, res, next) => {
     const existUser = await userModel.findOne({ email: req.body.email });
     if (existUser) {
@@ -38,9 +37,11 @@ export const login = catchAsyncError(async (req, res, next) => {
     });
 });
 
-
-
 export const forgotPassword = catchAsyncError(async (req, res, next) => {
+    const { email } = req.body;
+    if (!email) {
+        return next(new ErrorHandler(400, 'Please provide your email'));
+    }
     const existUser = await userModel.findOne({ email: req.body.email });
     if (!existUser) {
         return next(new ErrorHandler(400, 'Account does not exist'));
@@ -65,7 +66,7 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
 export const resetPassword = catchAsyncError(async (req, res, next) => {
     const { userId, token } = req.params;
     if (!req.body.password) {
-        return next(new ErrorHandler(400, 'password is required'));
+        return next(new ErrorHandler(400, 'new password is required'));
     }
     const user = await userModel.findOne({
         _id: userId,

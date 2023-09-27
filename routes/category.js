@@ -1,9 +1,16 @@
-import { allCategory, createCategory } from "../controllers/category.js";
-import { Router } from "express";
+import {
+    allCategory,
+    createCategory,
+    getCategoryById,
+    getCategoryByName,
+} from '../controllers/category.js';
+import { Router } from 'express';
 
-const categoryRouter = Router()
+const router = Router();
 
-categoryRouter.post("/add", createCategory)
-categoryRouter.get("/all", allCategory)
+router.post('/add', createCategory);
+router.get('/all', allCategory);
+router.get('/:categoryId', getCategoryById);
+router.get('/', getCategoryByName);
 
-export default categoryRouter
+export default router;

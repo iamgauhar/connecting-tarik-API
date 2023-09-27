@@ -30,6 +30,12 @@ function errorMiddleware(err, req, res, next) {
         err = new ErrorHandler(httpStatus.UNAUTHORIZED, message);
     }
 
+    //Validation ERROR
+    if (err.name === 'ValidationError') {
+        const message = Object.values(err.errors).map((value) => value.message);
+        err = new ErrorHandler(httpStatus.BAD_REQUEST, message);
+    }
+
     res.status(err.statusCode).json({
         success: false,
         message: err.message,

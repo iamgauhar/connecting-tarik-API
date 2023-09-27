@@ -5,16 +5,14 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import passport from 'passport';
-import Randomstring from 'randomstring';
-import nodemailer from 'nodemailer'
+import httpStatus from 'http-status';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import connectDatabase from './config/database.js';
 import ErrorHandler from './utils/errorHandler.js';
-import authRoutes from './routes/auth.js';
 import logger from './config/logger.js';
-import httpStatus from 'http-status';
-import categoryRouter from './routes/category.js';
-import productRouter from './routes/product.js';
+import authRoutes from './routes/auth.js';
+import categoryRoutes from './routes/category.js';
+import productRoutes from './routes/product.js';
 
 // no __dirname in ES6 module scope, that's why i am using path.resolve()
 config({ path: path.join(path.resolve(), 'config/config.env') });
@@ -54,8 +52,8 @@ app.get('/', (req, res) => {
 
 // api routes
 app.use('/auth', authRoutes);
-app.use("/category", categoryRouter)
-app.use("/product", productRouter)
+app.use('/category', categoryRoutes);
+app.use('/product', productRoutes);
 
 // 404 error middleware
 app.use((req, res, next) => {
