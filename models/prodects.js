@@ -16,5 +16,14 @@ const produdutSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
+    },
+    categoryId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "category",
+        required: true,
     }
 })
+
+const productModel = mongoose.model("products", produdutSchema)
+
+export default productModel;

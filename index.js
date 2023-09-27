@@ -13,6 +13,8 @@ import ErrorHandler from './utils/errorHandler.js';
 import authRoutes from './routes/auth.js';
 import logger from './config/logger.js';
 import httpStatus from 'http-status';
+import categoryRouter from './routes/category.js';
+import productRouter from './routes/product.js';
 
 // no __dirname in ES6 module scope, that's why i am using path.resolve()
 config({ path: path.join(path.resolve(), 'config/config.env') });
@@ -52,6 +54,8 @@ app.get('/', (req, res) => {
 
 // api routes
 app.use('/auth', authRoutes);
+app.use("/category", categoryRouter)
+app.use("/product", productRouter)
 
 // 404 error middleware
 app.use((req, res, next) => {

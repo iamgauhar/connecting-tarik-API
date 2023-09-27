@@ -48,7 +48,7 @@ export const forgotPassword = catchAsyncError(async (req, res, next) => {
 
     const token = crypto.randomBytes(32).toString('hex');
 
-    let message = `<h3>To reset your password <a href="${process.env.BACKEND_URL}/auth/reset-password/${existUser._id}/${token}">click here </a> </h3>`;
+    let message = `<h3>To reset your password <a href="${process.env.FRONTEND_URL}/reset-password/${existUser._id}/${token}">click here </a> </h3>`;
 
     let response = await sendEmail(req.body.email, 'Reset Password', message);
     if (response.messageId) {
