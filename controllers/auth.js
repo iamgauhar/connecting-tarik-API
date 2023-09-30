@@ -88,3 +88,8 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
         user: result,
     });
 });
+
+
+export const getUser = catchAsyncError(async (req, res, next) => {
+    res.status(200).json({ user: req.user });
+})
