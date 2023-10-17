@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 
 const produdutSchema = new mongoose.Schema({
@@ -8,6 +9,10 @@ const produdutSchema = new mongoose.Schema({
     price: {
         type: Number,
         required: [true, 'please provide the product price'],
+    },
+    isPriceVisible: {
+        type: Boolean,
+        default: false
     },
     image: {
         type: String,

@@ -22,3 +22,4 @@ export const allProduct = catchAsyncError(async (req, res, next) => {
         success: true,
     });
 });
+
