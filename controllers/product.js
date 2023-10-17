@@ -22,3 +22,43 @@ export const allProduct = catchAsyncError(async (req, res, next) => {
         success: true,
     });
 });
+
+export const updateProduct = catchAsyncError(async (req, res, next) => {
+    const productId = req.params.produdctId;
+    const product = await productModel.findByIdAndUpdate(productId, req.body, {
+        new: true,
+    });
+    if (!product) {
+        return next(new ErrorHandler(404, 'No product found'));
+    }
+    res.status(200).json({
+        success: true,
+        message: 'product updated successfully',
+        product,
+    });
+});
+
+export const deleteProduct = catchAsyncError(async (req, res, next) => {
+    const productId = req.params.produdctId;
+    const product = await productModel.findByIdAndDelete(productId);
+    if (!product) {
+        return next(new ErrorHandler(404, 'No product found'));
+    }
+    res.status(200).json({
+        success: true,
+        message: 'product deleted successfully',
+    });
+});
+
+export const getProduct = catchAsyncError(async (req, res, next) => {
+    const productId = req.params.produdctId;
+    const product = await productModel.findById(productId);
+    if (!product) {
+        return next(new ErrorHandler(404, 'Product not found'));
+    }
+    res.status(200).json({
+        success: true,
+        message: 'product fetched successfully',
+        product,
+    });
+});
