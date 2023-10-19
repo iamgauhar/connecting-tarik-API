@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 
 const produdutSchema = new mongoose.Schema({
@@ -12,10 +11,10 @@ const produdutSchema = new mongoose.Schema({
     },
     isPriceVisible: {
         type: Boolean,
-        default: false
+        default: false,
     },
-    image: {
-        type: String,
+    images: {
+        type: Array,
         required: [true, 'please provide the product image url'],
     },
     description: {

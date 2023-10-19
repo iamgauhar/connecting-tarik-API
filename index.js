@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import passport from 'passport';
 import httpStatus from 'http-status';
+import multer from 'multer';
 import errorMiddleware from './middlewares/errorMiddleware.js';
 import connectDatabase from './config/database.js';
 import ErrorHandler from './utils/errorHandler.js';
@@ -32,6 +33,8 @@ app.use(express.urlencoded({ extended: false }));
 // gzip compression
 app.use(compression());
 
+// multer
+app.use(multer().array('images'));
 // enable cors
 app.use(cors());
 app.options('*', cors());

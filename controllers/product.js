@@ -1,9 +1,17 @@
 import productModel from '../models/prodects.js';
 import catchAsyncError from '../middlewares/catchAsyncError.js';
 import ErrorHandler from '../utils/errorHandler.js';
+import { deleteImages, uploadImages } from '../utils/imageHandler.js';
 
 export const createProduct = catchAsyncError(async (req, res, next) => {
-    const product = await productModel.create(req.body);
+    if (!req.files) {
+        return next(new ErrorHandler(400, 'Image is required as "images"'));
+    }
+    const images = uploadImages(req.files);
+
+    const product = new productModel(req.body);
+    product.images = images;
+    await product.save();
     res.status(201).json({
         message: 'Product added successfully!',
         success: true,
@@ -44,6 +52,7 @@ export const deleteProduct = catchAsyncError(async (req, res, next) => {
     if (!product) {
         return next(new ErrorHandler(404, 'No product found'));
     }
+    await deleteImages(product.images);
     res.status(200).json({
         success: true,
         message: 'product deleted successfully',
