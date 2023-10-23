@@ -1,6 +1,6 @@
-const { initializeApp } = require('firebase/app');
-const { getStorage } = require('firebase/storage');
-require('dotenv').config();
+import { initializeApp } from 'firebase/app';
+import { getStorage } from 'firebase/storage';
+// require('dotenv').config();
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -15,4 +15,4 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
-module.exports = getStorage(firebaseApp);
+export default getStorage(firebaseApp);

@@ -1,12 +1,12 @@
-const {
+import {
     ref,
     uploadBytes,
     deleteObject,
     getDownloadURL,
-} = require('firebase/storage');
-const storage = require('../config/firebase');
+} from 'firebase/storage';
+import storage from '../config/firebase.js';
 
-const uploadImages = async (files) => {
+export const uploadImages = async (files) => {
     let imageURLs = [];
     for (let file of files) {
         let imageName = new Date().toISOString() + '-' + file.originalname;
@@ -20,10 +20,9 @@ const uploadImages = async (files) => {
     return imageURLs;
 };
 
-const deleteImages = async (images) => {
+export const deleteImages = async (images) => {
     for (let image of images) {
         let imageRef = ref(storage, image);
         await deleteObject(imageRef);
     }
 };
-module.exports = { uploadImages, deleteImages };
