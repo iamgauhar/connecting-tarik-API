@@ -1,5 +1,4 @@
 import express from 'express';
-import path from 'path';
 import { config } from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -16,7 +15,7 @@ import categoryRoutes from './routes/category.js';
 import productRoutes from './routes/product.js';
 
 // no __dirname in ES6 module scope, that's why i am using path.resolve()
-config({ path: path.join(path.resolve(), 'config/config.env') });
+config({ path: process.cwd() + '/config/config.env' });
 
 // initializing express applicaiton
 const app = express();

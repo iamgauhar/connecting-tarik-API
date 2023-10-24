@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getStorage } from 'firebase/storage';
-// require('dotenv').config();
+import { config } from 'dotenv';
+config({ path: process.cwd() + '/config/config.env' });
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {

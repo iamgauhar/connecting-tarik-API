@@ -7,7 +7,8 @@ export const createProduct = catchAsyncError(async (req, res, next) => {
     if (!req.files) {
         return next(new ErrorHandler(400, 'Image is required as "images"'));
     }
-    const images = uploadImages(req.files);
+    // console.log(req.files);
+    const images = await uploadImages(req.files);
 
     const product = new productModel(req.body);
     product.images = images;

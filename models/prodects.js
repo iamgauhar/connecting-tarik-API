@@ -15,7 +15,7 @@ const produdutSchema = new mongoose.Schema({
     },
     images: {
         type: Array,
-        required: [true, 'please provide the product image url'],
+        required: [true, 'please provide the product images'],
     },
     description: {
         type: String,
