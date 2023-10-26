@@ -13,6 +13,7 @@ import logger from './config/logger.js';
 import authRoutes from './routes/auth.js';
 import categoryRoutes from './routes/category.js';
 import productRoutes from './routes/product.js';
+import customerRouter from './routes/customer.js';
 
 // no __dirname in ES6 module scope, that's why i am using path.resolve()
 config({ path: process.cwd() + '/config/config.env' });
@@ -56,6 +57,7 @@ app.get('/', (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/category', categoryRoutes);
 app.use('/product', productRoutes);
+app.use('/customer', customerRouter);
 
 // 404 error middleware
 app.use((req, res, next) => {
