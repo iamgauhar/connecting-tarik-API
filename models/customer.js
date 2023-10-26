@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const customerImage = mongoose.model('customerImage', mongoose.Schema({
+const customerImageModel = mongoose.model('customerImage', mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -11,4 +11,4 @@ const customerImage = mongoose.model('customerImage', mongoose.Schema({
     }
 }))
 
-export default customerImage;
+export default customerImageModel;

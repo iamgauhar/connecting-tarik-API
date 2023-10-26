@@ -1,5 +1,5 @@
 import catchAsyncError from "../middlewares/catchAsyncError.js";
-import customerImage from "../models/customer.js";
+import customerImageModel from "../models/customer.js";
 import ErrorHandler from "../utils/errorHandler.js";
 import { uploadImages } from "../utils/imageHandler.js";
 
@@ -10,7 +10,7 @@ export const createCustomer = catchAsyncError(async (req, res, next) => {
     // console.log(req.files);
     const images = await uploadImages(req.files);
 
-    const customer = new customerImage(req.body);
+    const customer = new customerImageModel(req.body);
     customer.image = images[0];
     await customer.save();
     res.status(201).json({
@@ -19,3 +19,11 @@ export const createCustomer = catchAsyncError(async (req, res, next) => {
         customer,
     });
 });
+
+export const allCustomer = catchAsyncError(async (req, res, next) => {
+    const customers = await customerImageModel.find().select('-__v')
+    res.status(200).json({
+        success: true,
+        customers,
+    })
+})
