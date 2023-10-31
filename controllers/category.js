@@ -1,9 +1,20 @@
 import catchAsyncError from '../middlewares/catchAsyncError.js';
 import categoryModel from '../models/category.js';
 import ErrorHandler from '../utils/errorHandler.js';
+import { uploadImages } from '../utils/imageHandler.js';
 
 export const createCategory = catchAsyncError(async (req, res) => {
-    const category = await categoryModel.create(req.body);
+    if (!req.files) {
+        return next(new ErrorHandler(400, 'Image is required as "images"'));
+    }
+    if (!req.body.name) {
+        return next(new ErrorHandler(400, 'Name is required as "Name feild"'));
+    }
+
+    const images = await uploadImages(req.files);
+    const category = new categoryModel(req.body);
+    category.image = images[0]
+    await category.save()
     res.status(201).json({
         message: 'Category created successfully!',
         success: true,
