@@ -3,7 +3,7 @@ import categoryModel from '../models/category.js';
 import ErrorHandler from '../utils/errorHandler.js';
 import { uploadImages } from '../utils/imageHandler.js';
 
-export const createCategory = catchAsyncError(async (req, res) => {
+export const createCategory = catchAsyncError(async (req, res, next) => {
     if (!req.files) {
         return next(new ErrorHandler(400, 'Image is required as "images"'));
     }
