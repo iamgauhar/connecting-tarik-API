@@ -3,7 +3,7 @@ import {youtubeModel } from "../models/socialMediaLinks.js";
 import ErrorHandler from "../utils/errorHandler.js";
 
 export const getYtLink = catchAsyncError(async (req, res, next) => {
-    const YTLink = await youtubeModel.find().limit(3)
+    const YTLink = await youtubeModel.find().sort({$natural:-1}).limit(3)
     res.status(200).json({
         success: true,
         response: YTLink,
