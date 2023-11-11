@@ -1,7 +1,7 @@
-import catchAsyncError from "../middlewares/catchAsyncError.js";
-import customerImageModel from "../models/customer.js";
-import ErrorHandler from "../utils/errorHandler.js";
-import { uploadImages } from "../utils/imageHandler.js";
+import catchAsyncError from '../middlewares/catchAsyncError.js';
+import customerImageModel from '../models/customer.js';
+import ErrorHandler from '../utils/errorHandler.js';
+import { uploadImages } from '../utils/imageHandler.js';
 
 export const createCustomer = catchAsyncError(async (req, res, next) => {
     if (!req.files) {
@@ -24,9 +24,12 @@ export const createCustomer = catchAsyncError(async (req, res, next) => {
 });
 
 export const allCustomer = catchAsyncError(async (req, res, next) => {
-    const customers = await customerImageModel.find().select('-__v')
+    const customers = await customerImageModel.find().select('-__v');
+    if (customers.length == 0) {
+        return next(new ErrorHandler(404, 'No customers found!'));
+    }
     res.status(200).json({
         success: true,
         customers,
-    })
-})
+    });
+});

@@ -33,7 +33,6 @@ export const login = catchAsyncError(async (req, res, next) => {
         success: true,
         message: 'LoggedIn successfully',
         user: result,
-        token,
     });
 });
 
@@ -89,7 +88,6 @@ export const resetPassword = catchAsyncError(async (req, res, next) => {
     });
 });
 
-
 export const getUser = catchAsyncError(async (req, res, next) => {
     res.status(200).json({ user: req.user });
-})
+});

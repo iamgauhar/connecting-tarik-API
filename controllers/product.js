@@ -21,7 +21,10 @@ export const createProduct = catchAsyncError(async (req, res, next) => {
 });
 
 export const allProduct = catchAsyncError(async (req, res, next) => {
-    const products = await productModel.find().select('-__v');
+    const products = await productModel
+        .find()
+        .select('-__v')
+        .populate('categoryId');
     if (products.length == 0) {
         return next(new ErrorHandler(404, 'No product found'));
     }
