@@ -75,3 +75,18 @@ export const getProduct = catchAsyncError(async (req, res, next) => {
         product,
     });
 });
+
+export const getProductsByCategoryId = catchAsyncError(
+    async (req, res, next) => {
+        const categoryId = req.params.categoryId;
+        const products = await productModel.find({ categoryId });
+        if (products.length == 0) {
+            return next(new ErrorHandler(404, 'No product found'));
+        }
+        res.status(200).json({
+            success: true,
+            message: 'product fetched by categoryId successfully',
+            products,
+        });
+    }
+);
