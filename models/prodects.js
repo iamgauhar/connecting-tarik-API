@@ -27,6 +27,11 @@ const produdutSchema = new mongoose.Schema(
             ref: 'Category',
             required: [true, 'which category it belongs to?'],
         },
+        categoryName:{
+            type: String,
+            required: true
+        
+        }
     },
     { timestamps: true }
 );
