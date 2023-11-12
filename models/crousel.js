@@ -9,6 +9,7 @@ const crouselSchema = new Schema(
         link: {
             type: String,
             required: true,
+            default: "https://www.connectingtarik.com/"
         },
     },
     { timestamps: true }

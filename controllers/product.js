@@ -23,6 +23,7 @@ export const createProduct = catchAsyncError(async (req, res, next) => {
 export const allProduct = catchAsyncError(async (req, res, next) => {
     const products = await productModel
         .find()
+        .sort({$natural:-1})
         .select('-__v')
         .populate('categoryId');
     if (products.length == 0) {
@@ -79,7 +80,7 @@ export const getProduct = catchAsyncError(async (req, res, next) => {
 export const getProductsByCategoryId = catchAsyncError(
     async (req, res, next) => {
         const categoryId = req.params.categoryId;
-        const products = await productModel.find({ categoryId });
+        const products = await productModel.find({ categoryId }).sort({$natural:-1});
         if (products.length == 0) {
             return next(new ErrorHandler(404, 'No product found'));
         }

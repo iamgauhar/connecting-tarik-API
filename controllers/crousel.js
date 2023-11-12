@@ -9,7 +9,7 @@ export const createCrousel = catchAsyncError(async (req, res, next) => {
     }
 
     const images = await uploadImages(req.files);
-
+    console.log(images);
     const crousel = new crouselModel(req.body);
     crousel.image = images[0];
     await crousel.save();
@@ -21,7 +21,7 @@ export const createCrousel = catchAsyncError(async (req, res, next) => {
 });
 
 export const getCrousels = catchAsyncError(async (req, res, next) => {
-    const crousels = await crouselModel.find().limit(4);
+    const crousels = await crouselModel.find().sort({$natural:-1}).limit(4);
     if (crousels.length == 0) {
         return next(new ErrorHandler(404, 'No Crousel found!'));
     }

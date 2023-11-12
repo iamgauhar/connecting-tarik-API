@@ -24,7 +24,7 @@ export const createCustomer = catchAsyncError(async (req, res, next) => {
 });
 
 export const allCustomer = catchAsyncError(async (req, res, next) => {
-    const customers = await customerImageModel.find().select('-__v');
+    const customers = await customerImageModel.find().sort({$natural:-1}).select('-__v');
     if (customers.length == 0) {
         return next(new ErrorHandler(404, 'No customers found!'));
     }
